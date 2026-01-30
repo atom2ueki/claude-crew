@@ -2,57 +2,52 @@ import { spawn } from 'child_process';
 import { generateAvatar, validateGender, buildAvatarUrl } from 'claude-crew-shared/avatar';
 
 /**
+ * Check if Claude CLI is available
+ * @returns {Promise<boolean>} - True if Claude CLI is available
+ */
+export async function checkClaudeCLI() {
+  return new Promise((resolve) => {
+    const child = spawn('claude', ['--version'], {
+      stdio: ['ignore', 'pipe', 'pipe'],
+      timeout: 5000
+    });
+
+    child.on('close', (code) => resolve(code === 0));
+    child.on('error', () => resolve(false));
+  });
+}
+
+/**
  * Generate metadata for an agent using Claude Code CLI
  * Returns displayName, gender, tagline, and avatar configuration
  *
  * @param {object} agent - Agent object with name and description
+ * @param {Set<string>} usedNames - Names already assigned to other agents
  * @returns {Promise<object>} - Agent with generated metadata
  */
-export async function enrichAgent(agent) {
-  try {
-    const metadata = await generateMetadataWithClaude(agent);
+export async function enrichAgent(agent, usedNames = new Set()) {
+  const metadata = await generateMetadataWithClaude(agent, usedNames);
 
-    // Validate and normalize gender
-    const gender = validateGender(metadata.gender);
+  // Validate and normalize gender
+  const gender = validateGender(metadata.gender);
 
-    // Generate avatar config
-    const avatar = generateAvatar(gender, {
-      glassesProbability: metadata.glassesProbability || 0,
-      beardProbability: metadata.beardProbability || 0
-    });
+  // Generate avatar config
+  const avatar = generateAvatar(gender, {
+    glassesProbability: metadata.glassesProbability || 0,
+    beardProbability: metadata.beardProbability || 0
+  });
 
-    // Build avatar URL
-    const avatarUrl = buildAvatarUrl(metadata.displayName, avatar);
+  // Build avatar URL
+  const avatarUrl = buildAvatarUrl(metadata.displayName, avatar);
 
-    return {
-      ...agent,
-      displayName: metadata.displayName,
-      gender,
-      tagline: metadata.tagline,
-      avatar,
-      avatarUrl
-    };
-  } catch (err) {
-    console.warn(`Failed to generate metadata for ${agent.name}:`, err.message);
-
-    // Fallback: use agent name as display name, random gender
-    const fallback = generateFallbackMetadata(agent);
-    const gender = validateGender(fallback.gender);
-    const avatar = generateAvatar(gender, {
-      glassesProbability: fallback.glassesProbability,
-      beardProbability: fallback.beardProbability
-    });
-    const avatarUrl = buildAvatarUrl(fallback.displayName, avatar);
-
-    return {
-      ...agent,
-      displayName: fallback.displayName,
-      gender,
-      tagline: fallback.tagline,
-      avatar,
-      avatarUrl
-    };
-  }
+  return {
+    ...agent,
+    displayName: metadata.displayName,
+    gender,
+    tagline: metadata.tagline,
+    avatar,
+    avatarUrl
+  };
 }
 
 /**
@@ -60,20 +55,27 @@ export async function enrichAgent(agent) {
  * Uses stdin to avoid shell escaping issues
  *
  * @param {object} agent - Agent with name and description
+ * @param {Set<string>} usedNames - Names already assigned to other agents
  * @returns {Promise<object>} - Generated metadata
  */
-async function generateMetadataWithClaude(agent) {
+async function generateMetadataWithClaude(agent, usedNames = new Set()) {
   // Truncate description to avoid overly long prompts
   const shortDesc = (agent.description || '').slice(0, 300);
+
+  // Build exclusion list if we have used names
+  const usedNamesArray = Array.from(usedNames);
+  const exclusionClause = usedNamesArray.length > 0
+    ? `\n\nIMPORTANT: Do NOT use any of these names as they are already taken: ${usedNamesArray.join(', ')}`
+    : '';
 
   const prompt = `You are generating metadata for an AI agent persona. Based on the agent's role and description, create a human-like identity.
 
 Agent Name: ${agent.name}
-Description: ${shortDesc}
+Description: ${shortDesc}${exclusionClause}
 
 Generate the following in JSON format:
 {
-  "displayName": "A human first name that fits this agent's personality (e.g., Alex, Sam, Jordan)",
+  "displayName": "A unique human first name that fits this agent's personality (e.g., Alex, Sam, Jordan)",
   "gender": "male or female based on what fits the persona",
   "tagline": "A short witty tagline (max 50 chars) that captures their specialty",
   "glassesProbability": 0-100 based on if they seem intellectual/technical,
@@ -135,63 +137,22 @@ Respond with ONLY the JSON object, no explanation.`;
 }
 
 /**
- * Generate fallback metadata when Claude CLI is unavailable
- * Uses simple heuristics based on agent name
- *
- * @param {object} agent - Agent with name and description
- * @returns {object} - Fallback metadata
- */
-function generateFallbackMetadata(agent) {
-  // Simple name generation based on first letter of agent name
-  const firstLetter = agent.name.charAt(0).toUpperCase();
-  const names = {
-    male: ['Alex', 'Ben', 'Chris', 'Dan', 'Eli', 'Felix', 'George', 'Henry', 'Ivan', 'Jack',
-           'Kevin', 'Leo', 'Max', 'Nate', 'Oscar', 'Pete', 'Quinn', 'Ryan', 'Sam', 'Tom',
-           'Uri', 'Vic', 'Will', 'Xavier', 'Yuri', 'Zach'],
-    female: ['Ana', 'Beth', 'Clara', 'Diana', 'Emma', 'Fiona', 'Grace', 'Holly', 'Iris', 'Julia',
-             'Kate', 'Luna', 'Maya', 'Nina', 'Olive', 'Penny', 'Quinn', 'Rose', 'Sara', 'Tina',
-             'Uma', 'Vera', 'Wendy', 'Xena', 'Yara', 'Zoe']
-  };
-
-  // Randomly pick gender
-  const gender = Math.random() > 0.5 ? 'male' : 'female';
-  const nameIndex = firstLetter.charCodeAt(0) - 65;
-  const validIndex = Math.max(0, Math.min(25, nameIndex));
-  const displayName = names[gender][validIndex];
-
-  // Generate tagline from description
-  const desc = agent.description || '';
-  let tagline = 'AI Assistant';
-  if (desc) {
-    // Extract a short phrase from description
-    const firstSentence = desc.split(/[.!?]/)[0] || desc;
-    tagline = firstSentence.slice(0, 47) + (firstSentence.length > 47 ? '...' : '');
-  }
-
-  return {
-    displayName,
-    gender,
-    tagline,
-    glassesProbability: agent.name.toLowerCase().includes('code') ||
-                        agent.name.toLowerCase().includes('dev') ? 60 : 30,
-    beardProbability: gender === 'male' ? 20 : 0
-  };
-}
-
-/**
- * Enrich multiple agents in parallel (with concurrency limit)
+ * Enrich multiple agents sequentially to ensure unique names
+ * Names are tracked across all agents to prevent duplicates
  *
  * @param {Array} agents - Array of agent objects
- * @param {number} concurrency - Max concurrent enrichments
+ * @param {number} _concurrency - Ignored, kept for API compatibility
  * @returns {Promise<Array>} - Enriched agents
  */
-export async function enrichAgents(agents, concurrency = 3) {
+export async function enrichAgents(agents, _concurrency = 3) {
   const results = [];
+  const usedNames = new Set();
 
-  for (let i = 0; i < agents.length; i += concurrency) {
-    const batch = agents.slice(i, i + concurrency);
-    const enriched = await Promise.all(batch.map(enrichAgent));
-    results.push(...enriched);
+  // Process sequentially to ensure name uniqueness
+  for (const agent of agents) {
+    const enriched = await enrichAgent(agent, usedNames);
+    usedNames.add(enriched.displayName);
+    results.push(enriched);
   }
 
   return results;

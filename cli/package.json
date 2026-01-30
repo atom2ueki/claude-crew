@@ -1,6 +1,6 @@
 {
   "name": "@atom2ueki/claude-crew",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate fun employee card images with avatars for your Claude Code agents",
   "author": "atom2ueki",
   "license": "MIT",

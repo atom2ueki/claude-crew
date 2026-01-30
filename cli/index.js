@@ -9,7 +9,7 @@ import { program } from 'commander';
 import { resolve, dirname } from 'path';
 import { existsSync, mkdirSync } from 'fs';
 import { loadAll, getCounts } from './src/agentLoader.js';
-import { enrichAgents } from './src/metadataGenerator.js';
+import { enrichAgents, checkClaudeCLI } from './src/metadataGenerator.js';
 import { generateCrewImage } from './src/imageGenerator.js';
 
 program
@@ -43,6 +43,15 @@ program
       }
 
       console.log(`Found ${counts.agents} agent(s) and ${counts.plugins} plugin(s)`);
+
+      // Check if Claude CLI is available (required for metadata generation)
+      const claudeAvailable = await checkClaudeCLI();
+      if (!claudeAvailable) {
+        console.error('\nError: Claude CLI is required but not found.');
+        console.log('\nThis tool generates AI-powered metadata for your agents using Claude CLI.');
+        console.log('Please install Claude CLI first: https://claude.ai/code');
+        process.exit(1);
+      }
 
       // Load all agents and plugins
       console.log('\nLoading agents and plugins...');
