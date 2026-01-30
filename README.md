@@ -1,3 +1,5 @@
+![Claude Crew Banner](./assets/banner.png)
+
 # Claude Crew
 
 Generate beautiful social images of your Claude Code agents. Turn your agent team into shareable artwork.
