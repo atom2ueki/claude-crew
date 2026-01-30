@@ -13,7 +13,7 @@ The visual design is inspired by [Kimi 2.5's agent swarm visualization](https://
 ## Installation
 
 ```bash
-npm install -g claudecrew
+npm install -g @atom2ueki/claude-crew
 ```
 
 Requires Node.js >= 18.0.0
@@ -23,7 +23,7 @@ Requires Node.js >= 18.0.0
 ### Generate a crew image
 
 ```bash
-claudecrew generate
+claude-crew generate
 ```
 
 This will:
@@ -34,15 +34,15 @@ This will:
 
 **Options:**
 ```bash
-claudecrew generate -o ./my-crew.png    # Custom output path
-claudecrew generate --no-plugins         # Exclude plugins
-claudecrew generate -a ~/custom/agents   # Custom agents directory
+claude-crew generate -o ./my-crew.png    # Custom output path
+claude-crew generate --no-plugins         # Exclude plugins
+claude-crew generate -a ~/custom/agents   # Custom agents directory
 ```
 
 ### List your agents
 
 ```bash
-claudecrew list
+claude-crew list
 ```
 
 Shows all agents and plugins with their descriptions.

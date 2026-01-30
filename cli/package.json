@@ -1,5 +1,5 @@
 {
-  "name": "claudecrew",
+  "name": "@atom2ueki/claude-crew",
   "version": "1.0.0",
   "description": "Generate fun employee card images with avatars for your Claude Code agents",
   "author": "atom2ueki",
@@ -22,7 +22,7 @@
   ],
   "type": "module",
   "bin": {
-    "claudecrew": "./dist/index.cjs"
+    "claude-crew": "./dist/index.cjs"
   },
   "files": [
     "dist/"
