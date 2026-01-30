@@ -1,0 +1,12 @@
+# Development
+*.md
+.git
+.github
+node_modules
+*.log
+
+# Test files
+test/
+__tests__
+*.test.js
+*.spec.js

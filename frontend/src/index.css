@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Russo+One&family=Space+Grotesk:wght@500&display=swap');
+
+:root {
+  --color-bg: #1c1c1c;
+  --color-card-bg: #ffffff;
+  --color-text-primary: #000000;
+  --color-text-secondary: #666666;
+  --color-accent: #000000;
+  --radius-card: 24px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+}

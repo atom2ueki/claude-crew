@@ -1,0 +1,116 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0;
+  margin: 0 auto;
+}
+
+.crew-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+  width: 100%;
+}
+
+.header-left h1 {
+  font-family: 'Russo One', sans-serif;
+  font-size: 36px;
+  margin: 0 0 6px 0;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-style: italic;
+}
+
+.header-subtitle {
+  font-family: 'Space Grotesk', sans-serif;
+  margin: 0;
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.generate-btn {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-family: 'Russo One', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.generate-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+.generate-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.generate-btn:disabled {
+  background-color: #666;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.error-banner {
+  background: #ff4444;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error-banner button {
+  background: white;
+  color: #ff4444;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.main-content {
+  width: 100%;
+}
+
+.crew-grid {
+  display: grid;
+  gap: 30px;
+}
+
+.loading {
+  color: #888;
+  font-size: 18px;
+  text-align: center;
+  padding: 40px;
+}
+
+.empty-state {
+  color: #888;
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  border: 2px dashed rgba(255,255,255,0.2);
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 16px;
+}

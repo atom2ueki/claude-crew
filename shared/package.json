@@ -1,0 +1,19 @@
+{
+  "name": "claude-crew-shared",
+  "version": "1.0.0",
+  "description": "Shared library for Claude Crew CLI, backend, and frontend",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./avatar": "./avatarService.js",
+    "./frontmatter": "./frontmatterUtils.js",
+    "./agents": "./agentLoader.js",
+    "./card": "./cardRenderer.js",
+    "./metadata": "./metadataCache.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "claude-crew",
+  "version": "1.0.0",
+  "description": "CLI tool for managing Claude Code agents - generate social images and list agents",
+  "author": "Astralform AI",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atom2ueki/claude-crew.git"
+  },
+  "homepage": "https://github.com/atom2ueki/claude-crew#readme",
+  "bugs": {
+    "url": "https://github.com/atom2ueki/claude-crew/issues"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "cli",
+    "agents",
+    "ai",
+    "subagents"
+  ],
+  "type": "module",
+  "bin": {
+    "claude-crew": "./dist/index.cjs"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "start": "node index.js",
+    "build": "esbuild index.js --bundle --platform=node --outfile=dist/index.cjs --external:canvas",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "canvas": "^3.2.1",
+    "claude-crew-shared": "file:../shared",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.2"
+  }
+}
