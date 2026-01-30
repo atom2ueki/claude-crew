@@ -1,6 +1,6 @@
 {
   "name": "@atom2ueki/claude-crew",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generate fun employee card images with avatars for your Claude Code agents",
   "author": "atom2ueki",
   "license": "MIT",
@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "start": "node index.js",
-    "build": "esbuild index.js --bundle --platform=node --outfile=dist/index.cjs --external:canvas",
+    "build": "esbuild index.js --bundle --platform=node --outfile=dist/index.cjs --external:canvas --define:__VERSION__=\\\"$(node -p \"require('./package.json').version\")\\\"",
     "prepublishOnly": "npm run build"
   },
   "engines": {

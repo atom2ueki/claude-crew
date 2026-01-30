@@ -12,10 +12,13 @@ import { loadAll, getCounts } from './src/agentLoader.js';
 import { enrichAgents, checkClaudeCLI } from './src/metadataGenerator.js';
 import { generateCrewImage } from './src/imageGenerator.js';
 
+/* global __VERSION__ */
+const VERSION = typeof __VERSION__ !== 'undefined' ? __VERSION__ : '0.0.0-dev';
+
 program
   .name('claude-crew')
   .description('Generate social media-ready PNG images of your Claude Code agents')
-  .version('1.0.0');
+  .version(VERSION);
 
 program
   .command('generate')
