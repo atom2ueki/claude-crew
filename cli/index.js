@@ -13,7 +13,7 @@ import { enrichAgents } from './src/metadataGenerator.js';
 import { generateCrewImage } from './src/imageGenerator.js';
 
 program
-  .name('claude-crew')
+  .name('claudecrew')
   .description('Generate social media-ready PNG images of your Claude Code agents')
   .version('1.0.0');
 

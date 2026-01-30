@@ -1,8 +1,8 @@
 {
-  "name": "claude-crew",
+  "name": "claudecrew",
   "version": "1.0.0",
-  "description": "CLI tool for managing Claude Code agents - generate social images and list agents",
-  "author": "Astralform AI",
+  "description": "Generate fun employee card images with avatars for your Claude Code agents",
+  "author": "atom2ueki",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,13 +16,13 @@
     "claude",
     "claude-code",
     "cli",
-    "agents",
-    "ai",
-    "subagents"
+    "avatar",
+    "image-generator",
+    "fun"
   ],
   "type": "module",
   "bin": {
-    "claude-crew": "./dist/index.cjs"
+    "claudecrew": "./dist/index.cjs"
   },
   "files": [
     "dist/"

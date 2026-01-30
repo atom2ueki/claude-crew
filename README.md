@@ -2,18 +2,18 @@
 
 # Claude Crew
 
-Generate beautiful social images of your Claude Code agents. Turn your agent team into shareable artwork.
+A fun tool to generate employee card images with avatars for your Claude Code agents. Turn your agent crew into shareable artwork.
 
 ## Why Claude Crew?
 
-I love the personalized way we can create agents and subagents - each one with its own personality and purpose. I wanted to bring that same feeling to Claude Code and make it look cool while doing it.
+I love creating agents and subagents in Claude Code - each one with its own personality and purpose. I wanted a fun way to visualize them as a team with unique avatars and employee cards.
 
-The visual design is inspired by [Kimi 2.5's agent swarm visualization](https://kimi.ai), which showcases agents as a cohesive team rather than just a list of tools.
+The visual design is inspired by [Kimi 2.5's agent swarm visualization](https://kimi.ai).
 
 ## Installation
 
 ```bash
-npm install -g claude-crew
+npm install -g claudecrew
 ```
 
 Requires Node.js >= 18.0.0
@@ -23,7 +23,7 @@ Requires Node.js >= 18.0.0
 ### Generate a crew image
 
 ```bash
-claude-crew generate
+claudecrew generate
 ```
 
 This will:
@@ -34,25 +34,25 @@ This will:
 
 **Options:**
 ```bash
-claude-crew generate -o ./my-crew.png    # Custom output path
-claude-crew generate --no-plugins         # Exclude plugins
-claude-crew generate -a ~/custom/agents   # Custom agents directory
+claudecrew generate -o ./my-crew.png    # Custom output path
+claudecrew generate --no-plugins         # Exclude plugins
+claudecrew generate -a ~/custom/agents   # Custom agents directory
 ```
 
 ### List your agents
 
 ```bash
-claude-crew list
+claudecrew list
 ```
 
 Shows all agents and plugins with their descriptions.
 
 ## Example Output
 
-Your generated image will feature your agents as stylized cards, each with:
+Your generated image will feature your agents as employee cards, each with:
 - A unique display name (AI-generated)
 - A personalized tagline
-- A distinctive avatar
+- A fun avatar
 - The original agent identifier
 
 ## How It Works
@@ -67,7 +67,7 @@ Your generated image will feature your agents as stylized cards, each with:
 
 ## Web Interface (Development)
 
-Claude Crew also includes a web interface for browsing and managing agents visually.
+Claude Crew also includes a web interface for browsing agents and generating cards visually.
 
 ### Project Structure
 
@@ -98,9 +98,8 @@ Frontend runs at `http://localhost:5173`, backend at `http://localhost:3001`.
 
 ### Features
 
-- **Agent Cards**: Interactive 3D flip cards with summaries and specs
-- **Skills Panel**: View and manage Claude Code skills
-- **Real-time Sync**: Agents sync from your local directory
+- **Agent Cards**: Interactive 3D flip cards with avatars and info
+- **Real-time Sync**: Reads agents from your local directory
 
 ---
 
